@@ -1,3 +1,11 @@
+### Notes App
+
+This is a simple Notes List application built to practice and understand React’s useReducer and useContext hooks.
+The UI includes a basic notes input and list, but the main focus of this project is state management using useReducer hook, not features or styling.
+
+<img width="793" height="380" alt="image" src="https://github.com/user-attachments/assets/34a062ff-722e-4149-8c57-282d2d2b6070" />
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
