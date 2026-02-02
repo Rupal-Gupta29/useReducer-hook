@@ -1,20 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { NoteListContext } from "../context/NoteListProvider";
 
-const Form = ({ dispatch }) => {
+const Form = () => {
+  const { dispatch } = useContext(NoteListContext);
   const [note, setNote] = useState({
-    id: "",
+    id: uuidv4(),
     title: "",
     description: "",
   });
-
-  const handleInput = (e) => {
-    setNote({ ...note, id: uuidv4(), [e.target.name]: e.target.value });
-  };
+  const [errorMsg, setErrorMsg] = useState("");
 
   const handleAddNote = () => {
+    if (!note.title.trim() || !note.description.trim()) {
+      setErrorMsg("Please fill all the fields.");
+      return;
+    }
     dispatch({ type: "addNote", payload: note });
-    setNote({ id: "", title: "", description: "" });
+    setNote({ id: uuidv4(), title: "", description: "" });
+    setErrorMsg("");
   };
 
   return (
@@ -25,7 +29,7 @@ const Form = ({ dispatch }) => {
         className="w-full border p-2 rounded mb-2"
         value={note.title}
         name="title"
-        onChange={(e) => handleInput(e)}
+        onChange={(e) => setNote({ ...note, [e.target.name]: e.target.value })}
       />
 
       <textarea
@@ -33,7 +37,7 @@ const Form = ({ dispatch }) => {
         className="w-full border p-2 rounded mb-3"
         value={note.description}
         name="description"
-        onChange={(e) => handleInput(e)}
+        onChange={(e) => setNote({ ...note, [e.target.name]: e.target.value })}
       />
 
       <button
@@ -42,6 +46,7 @@ const Form = ({ dispatch }) => {
       >
         Add Note
       </button>
+      <p className="text-red-600">{errorMsg && errorMsg}</p>
     </div>
   );
 };
